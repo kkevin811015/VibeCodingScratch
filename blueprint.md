@@ -10,29 +10,33 @@ A modern, visually appealing Lotto number recommendation website. It provides us
 - **Responsive Design:** Works perfectly on mobile and desktop using modern CSS (Container Queries).
 - **Persistent Data:** Remembers your generated history using LocalStorage.
 - **Modern UI:** Uses expressive typography, vibrant colors, subtle textures, and deep shadows for a premium feel.
+- **Dark/Light Mode:** Seamlessly switch between dark and light themes, with preference persistence.
 
 ## Design
 - **Typography:** Expressive sans-serif fonts with clear hierarchy.
-- **Color Palette:** Based on traditional lotto ball colors:
-  - 1-10: Yellow (#fbc02d)
-  - 11-20: Blue (#1976d2)
-  - 21-30: Red (#d32f2f)
-  - 31-40: Grey (#757575)
-  - 41-45: Green (#388e3c)
+- **Color Palette:** Based on traditional lotto ball colors.
+- **Themes:**
+  - **Light Mode:** Soft backgrounds, crisp text, and subtle shadows.
+  - **Dark Mode:** Deep navy/charcoal backgrounds, bright highlights, and glowing effects.
 - **Texture:** Subtle noise texture on the main background.
 - **Shadows:** Multi-layered soft shadows for a "lifted" card effect and glowing interactive elements.
 - **Interactivity:** Hover effects, smooth transitions, and button animations.
 
 ## Implementation Plan
 1. **[X] Initial Research & Blueprinting**
-2. **[ ] Structure (index.html):** Set up the basic layout with a main container.
-3. **[ ] Styling (style.css):**
+2. **[X] Structure (index.html):** Set up the basic layout with a main container.
+3. **[X] Dark/Light Mode Implementation:**
+   - [X] Define theme variables in `style.css`.
+   - [X] Add theme toggle UI in `index.html`.
+   - [X] Implement theme switching logic in `main.js`.
+4. **[ ] Styling (style.css):**
    - Define CSS variables for colors and spacing.
    - Apply global styles and background textures.
    - Implement the Lotto Ball styles and animations.
    - Create responsive layouts using Grid and Container Queries.
-4. **[ ] Logic (main.js):**
+5. **[ ] Logic (main.js):**
    - Implement the random number generator logic.
    - Create a `LottoGenerator` Web Component.
    - Implement history management and LocalStorage persistence.
-5. **[ ] Validation:** Check for errors, ensure responsiveness, and verify accessibility.
+6. **[ ] Validation:** Check for errors, ensure responsiveness, and verify accessibility.
+7. **[ ] Git Integration:** Commit and push the project.

@@ -47,11 +47,11 @@ class LottoGenerator extends HTMLElement {
   }
 
   getBallColor(num) {
-    if (num <= 10) return '#fbc02d';
-    if (num <= 20) return '#1976d2';
-    if (num <= 30) return '#d32f2f';
-    if (num <= 40) return '#757575';
-    return '#388e3c';
+    if (num <= 10) return 'var(--ball-1, #fbc02d)';
+    if (num <= 20) return 'var(--ball-11, #1976d2)';
+    if (num <= 30) return 'var(--ball-21, #d32f2f)';
+    if (num <= 40) return 'var(--ball-31, #757575)';
+    return 'var(--ball-41, #388e3c)';
   }
 
   render() {
@@ -89,7 +89,7 @@ class LottoGenerator extends HTMLElement {
           100% { transform: scale(1); opacity: 1; }
         }
         .generate-btn {
-          background: #4f46e5;
+          background: var(--primary-color, #4f46e5);
           color: white;
           padding: 1rem 2.5rem;
           font-size: 1.2rem;
@@ -97,29 +97,33 @@ class LottoGenerator extends HTMLElement {
           border: none;
           cursor: pointer;
           font-weight: 700;
-          box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+          box-shadow: 0 4px 15px var(--primary-glow);
           transition: all 0.2s;
         }
         .generate-btn:hover {
           transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5);
-          background: #4338ca;
+          box-shadow: 0 6px 20px var(--primary-glow);
+          filter: brightness(1.1);
         }
         .generate-btn:active {
           transform: translateY(0);
         }
         .generate-btn:disabled {
-          background: #94a3b8;
+          background: var(--secondary-color, #94a3b8);
           cursor: not-allowed;
           transform: none;
           box-shadow: none;
+        }
+        .empty-text {
+          color: var(--secondary-color, #94a3b8);
+          font-style: italic;
         }
       </style>
       <div class="balls-container">
         ${this.numbers.map(num => `
           <div class="ball" style="background-color: ${this.getBallColor(num)}">${num}</div>
         `).join('')}
-        ${this.numbers.length === 0 && !this.isGenerating ? '<p style="color: #94a3b8; font-style: italic;">행운의 버튼을 눌러보세요!</p>' : ''}
+        ${this.numbers.length === 0 && !this.isGenerating ? '<p class="empty-text">행운의 버튼을 눌러보세요!</p>' : ''}
       </div>
       <button class="generate-btn" ${this.isGenerating ? 'disabled' : ''}>
         ${this.isGenerating ? '번호 추출 중...' : '번호 생성하기'}
@@ -138,7 +142,29 @@ customElements.define('lotto-generator', LottoGenerator);
 document.addEventListener('DOMContentLoaded', () => {
   const historyList = document.getElementById('history-list');
   const clearBtn = document.getElementById('clear-history');
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeIcon = themeToggle.querySelector('.theme-icon');
+  
   let history = JSON.parse(localStorage.getItem('lottoHistory') || '[]');
+
+  // Theme Logic
+  const initTheme = () => {
+    const savedTheme = localStorage.getItem('theme') || 
+                      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    
+    setTheme(savedTheme);
+  };
+
+  const setTheme = (theme) => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+  };
+
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  });
 
   const renderHistory = () => {
     if (history.length === 0) {
@@ -159,11 +185,11 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const getBallColor = (num) => {
-    if (num <= 10) return '#fbc02d';
-    if (num <= 20) return '#1976d2';
-    if (num <= 30) return '#d32f2f';
-    if (num <= 40) return '#757575';
-    return '#388e3c';
+    if (num <= 10) return 'var(--ball-1, #fbc02d)';
+    if (num <= 20) return 'var(--ball-11, #1976d2)';
+    if (num <= 30) return 'var(--ball-21, #d32f2f)';
+    if (num <= 40) return 'var(--ball-31, #757575)';
+    return 'var(--ball-41, #388e3c)';
   };
 
   document.addEventListener('generated', (e) => {
@@ -192,5 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  initTheme();
   renderHistory();
 });
